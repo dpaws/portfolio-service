@@ -1,5 +1,7 @@
+reports
+target
 .idea
 .vertx
 .env
-target
+*.versionsBackup
 *.iml
