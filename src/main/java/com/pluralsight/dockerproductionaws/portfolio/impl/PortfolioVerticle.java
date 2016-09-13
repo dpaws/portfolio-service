@@ -2,6 +2,8 @@ package com.pluralsight.dockerproductionaws.portfolio.impl;
 
 import com.pluralsight.dockerproductionaws.common.MicroserviceVerticle;
 import com.pluralsight.dockerproductionaws.portfolio.PortfolioService;
+import com.pluralsight.dockerproductionaws.trader.CompulsiveTraderVerticle;
+import io.vertx.core.DeploymentOptions;
 import io.vertx.serviceproxy.ProxyHelper;
 
 import static com.pluralsight.dockerproductionaws.portfolio.PortfolioService.ADDRESS;
@@ -38,5 +40,8 @@ public class PortfolioVerticle extends MicroserviceVerticle {
                 System.out.println("Portfolio Events service published : " + ar.succeeded());
             }
         });
+
+        // Java traders
+        vertx.deployVerticle(CompulsiveTraderVerticle.class.getName(), new DeploymentOptions().setInstances(3));
     }
 }

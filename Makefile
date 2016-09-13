@@ -40,11 +40,11 @@ test: init
 # Builds release image and runs acceptance tests
 release: init
 	${INFO} "Pulling latest images..."
-	@ $(if $(NOPULL_ARG),,docker-compose $(RELEASE_ARGS) pull test agent)
+	@ $(if $(NOPULL_ARG),,docker-compose $(RELEASE_ARGS) pull test)
 	${INFO} "Building images..."
 	@ docker-compose $(RELEASE_ARGS) build $(NOPULL_FLAG) app
 	${INFO} "Running acceptance tests..."
-# @ docker-compose $(RELEASE_ARGS) up test
+	@ docker-compose $(RELEASE_ARGS) up -d app
 # @ docker cp $$(docker-compose $(RELEASE_ARGS) ps -q test):/app/target/surefire-reports/. reports
 # ${CHECK} $(REL_PROJECT) $(REL_COMPOSE_FILE) test
 	${INFO} "Acceptance testing complete"

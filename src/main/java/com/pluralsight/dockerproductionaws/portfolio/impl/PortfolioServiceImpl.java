@@ -32,15 +32,10 @@ public class PortfolioServiceImpl implements PortfolioService {
 
     @Override
     public void getPortfolio(Handler<AsyncResult<Portfolio>> resultHandler) {
-        // TODO
-        // ----
         resultHandler.handle(Future.succeededFuture(portfolio));
-        // ----
     }
 
     private void sendActionOnTheEventBus(String action, int amount, JsonObject quote, int newAmount) {
-        // TODO
-        // ----
         vertx.eventBus().publish(EVENT_ADDRESS, new JsonObject()
                 .put("action", action)
                 .put("quote",quote)
@@ -48,14 +43,10 @@ public class PortfolioServiceImpl implements PortfolioService {
                 .put("amount", amount)
                 .put("owned", newAmount)
         );
-
-        // ----
     }
 
     @Override
     public void evaluate(Handler<AsyncResult<Double>> resultHandler) {
-        // TODO
-        // ----
         HttpEndpoint.getClient(discovery, new JsonObject().put("name", "quotes"),
                 client -> {
                     if (client.failed()) {
