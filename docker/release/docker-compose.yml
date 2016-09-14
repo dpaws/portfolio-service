@@ -13,6 +13,7 @@ services:
       args:
         app_version: ${APP_VERSION}
     environment:
+      CLUSTER_GROUP_NAME: portfolio-service
       CLUSTER_GROUP_PASSWORD: password
     command:
       - java
@@ -25,6 +26,7 @@ services:
     links:
       - app
     environment:
+      CLUSTER_GROUP_NAME: portfolio-service
       CLUSTER_GROUP_PASSWORD: password
     command:
       - mvn
