@@ -13,8 +13,6 @@ import java.net.URLEncoder;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.pluralsight.dockerproductionaws.portfolio.PortfolioService.EVENT_ADDRESS;
-
 /**
  * The portfolio service implementation.
  */
@@ -36,7 +34,7 @@ public class PortfolioServiceImpl implements PortfolioService {
     }
 
     private void sendActionOnTheEventBus(String action, int amount, JsonObject quote, int newAmount) {
-        vertx.eventBus().publish(EVENT_ADDRESS, new JsonObject()
+        vertx.eventBus().send(EVENT_ADDRESS, new JsonObject()
                 .put("action", action)
                 .put("quote",quote)
                 .put("date", System.currentTimeMillis())
