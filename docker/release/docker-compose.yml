@@ -15,12 +15,6 @@ services:
     environment:
       CLUSTER_GROUP_NAME: portfolio-service
       CLUSTER_GROUP_PASSWORD: password
-    command:
-      - java
-      - -jar
-      - /app/portfolio-service-${APP_VERSION}-fat.jar
-      - -Dvertx.hazelcast.config=/app/conf/cluster.xml
-      - -cluster
   test:
     image: dockerproductionaws/microtrader-test
     links:
