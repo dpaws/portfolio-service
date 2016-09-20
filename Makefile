@@ -11,15 +11,11 @@ TEST_REPO_NAME ?= portfolio-service-dev
 # Common settings
 include Makefile.settings
 
-.PHONY: version version%hash test build release clean tag login logout publish compose dcompose database save load all
+.PHONY: version test build release clean tag login logout publish compose dcompose database save load all
 
 # Prints version
 version:
 	@ echo $(APP_VERSION)
-
-# Prints short commit hash
-version%hash:
-	@ echo $$(git rev-parse --short HEAD)
 
 # Creates workflow infrastucture
 init:
@@ -55,7 +51,7 @@ release: init
 
 # Executes a full workflow
 all: clean test release
-	@ make tag latest $$(make version) $$(make version:hash)
+	@ make tag latest $(APP_VERSION) $(GIT_HASH) $(GIT_TAG)
 	@ make publish
 	@ make clean
 
