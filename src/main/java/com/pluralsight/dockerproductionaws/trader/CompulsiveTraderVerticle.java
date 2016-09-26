@@ -4,13 +4,11 @@ import com.pluralsight.dockerproductionaws.common.MicroserviceVerticle;
 import com.pluralsight.dockerproductionaws.portfolio.PortfolioService;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.eventbus.MessageConsumer;
 import io.vertx.core.json.JsonObject;
 import io.vertx.servicediscovery.types.EventBusService;
-import io.vertx.servicediscovery.types.MessageSource;
 
 /**
  * A compulsive trader...

@@ -76,7 +76,7 @@ public class PortfolioServiceImpl implements PortfolioService {
         Future<Double> future = Future.future();
 
         client
-                .get("/?name=" + encode(company), response -> {
+                .get("/quote/?name=" + encode(company), response -> {
                     response.exceptionHandler(future::fail);
                     if (response.statusCode() == 200) {
                         response.bodyHandler(buffer -> {
