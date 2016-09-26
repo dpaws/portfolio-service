@@ -6,7 +6,7 @@ import io.vertx.core.*;
 import io.vertx.core.http.HttpClient;
 import io.vertx.core.json.JsonObject;
 import io.vertx.servicediscovery.ServiceDiscovery;
-import io.vertx.servicediscovery.types.HttpEndpoint;
+import io.vertx.servicediscovery.ServiceReference;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -21,6 +21,7 @@ public class PortfolioServiceImpl implements PortfolioService {
     private final Vertx vertx;
     private final Portfolio portfolio;
     private final ServiceDiscovery discovery;
+    private String root;
 
     public PortfolioServiceImpl(Vertx vertx, ServiceDiscovery discovery, double initialCash) {
         this.vertx = vertx;
@@ -45,15 +46,16 @@ public class PortfolioServiceImpl implements PortfolioService {
 
     @Override
     public void evaluate(Handler<AsyncResult<Double>> resultHandler) {
-        HttpEndpoint.getClient(discovery, new JsonObject().put("name", "quotes"),
-                client -> {
-                    if (client.failed()) {
-                        resultHandler.handle(Future.failedFuture(client.cause()));
-                    } else {
-                        HttpClient httpClient = client.result();
-                        computeEvaluation(httpClient, resultHandler);
-                    }
-                });
+        discovery.getRecord(new JsonObject().put("name", "quotes"), ar -> {
+            if (ar.failed()) {
+                resultHandler.handle(Future.failedFuture(ar.cause()));
+            } else {
+                ServiceReference reference = discovery.getReference(ar.result());
+                root = reference.record().getLocation().getString("root");
+                HttpClient httpClient = reference.get();
+                computeEvaluation(httpClient, resultHandler);
+            }
+        });
     }
 
     private void computeEvaluation(HttpClient httpClient, Handler<AsyncResult<Double>> resultHandler) {
@@ -76,7 +78,7 @@ public class PortfolioServiceImpl implements PortfolioService {
         Future<Double> future = Future.future();
 
         client
-                .get("/?name=" + encode(company), response -> {
+                .get(root + "/?name=" + encode(company), response -> {
                     response.exceptionHandler(future::fail);
                     if (response.statusCode() == 200) {
                         response.bodyHandler(buffer -> {
