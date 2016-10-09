@@ -101,11 +101,13 @@ public class PortfolioServiceImpl implements PortfolioService {
         if (amount <= 0) {
             resultHandler.handle(Future.failedFuture("Cannot buy " + quote.getString("name") +
                     " - the amount must be " + "greater than 0"));
+            return;
         }
 
         if (quote.getInteger("shares") < amount) {
             resultHandler.handle(Future.failedFuture("Cannot buy " + amount + " - not enough " +
                     "stocks on the market (" + quote.getInteger("shares") + ")"));
+            return;
         }
 
         double price = amount * quote.getDouble("ask");
@@ -131,6 +133,7 @@ public class PortfolioServiceImpl implements PortfolioService {
         if (amount <= 0) {
             resultHandler.handle(Future.failedFuture("Cannot sell " + quote.getString("name") +
                     " - the amount must be " + "greater than 0"));
+            return;
         }
 
         double price = amount * quote.getDouble("bid");
