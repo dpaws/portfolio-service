@@ -127,6 +127,11 @@
     <optional>true</optional>
   </dependency>
   <dependency>
+    <groupId>com.github.docker-production-aws</groupId>
+    <artifactId>microtrader-common</artifactId>
+    <version>1.0.0</version>
+  </dependency>
+  <dependency>
     <groupId>com.hazelcast</groupId>
     <artifactId>hazelcast-cloud</artifactId>
     <version>3.6.5</version>
