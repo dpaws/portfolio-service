@@ -10,6 +10,39 @@
   <main.verticle>com.pluralsight.dockerproductionaws.portfolio.impl.PortfolioVerticle</main.verticle>
 </properties>
 
+<name>Microtrader Portfolio Service</name>
+<description>The Portfolio Service for the Microtrader applications</description>
+<url>http://www.pluralsight.com</url>
+<licenses>
+  <license>
+    <name>ISC</name>
+    <url>https://opensource.org/licenses/ISC</url>
+  </license>
+</licenses>
+<scm>
+  <connection>scm:git:git://github.com/docker-production-aws/portfolio-service.git</connection>
+  <developerConnection>scm:git:git@github.com/docker-production-aws/portfolio-service.git</developerConnection>
+  <url>https://github.com/docker-production-aws/portfolio-service/</url>
+</scm>
+<developers>
+  <developer>
+      <id>mixja</id>
+      <name>Justin Menga</name>
+      <email>justin.menga@gmail.com</email>
+  </developer>
+</developers>
+
+<distributionManagement>
+  <snapshotRepository>
+    <id>ossrh</id>
+    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+  </snapshotRepository>
+  <repository>
+    <id>ossrh</id>
+    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+  </repository>
+</distributionManagement>
+
 <profiles>
   <profile>
     <id>app-version-present</id>
@@ -88,7 +121,7 @@
   </profile>
 </profiles>
 
-<groupId>com.pluralsight.docker-production-aws</groupId>
+<groupId>com.github.docker-production-aws</groupId>
 <artifactId>portfolio-service</artifactId>
 <version>${revision}</version>
 
@@ -247,6 +280,57 @@
       <groupId>org.codehaus.mojo</groupId>
       <artifactId>versions-maven-plugin</artifactId>
       <version>2.3</version>
+    </plugin>
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>1.6</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>1.6.7</version>
+        <extensions>true</extensions>
+        <configuration>
+          <serverId>ossrh</serverId>
+          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+          <autoReleaseAfterClose>true</autoReleaseAfterClose>
+        </configuration>
+      </plugin>
+      <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-source-plugin</artifactId>
+      <version>2.2.1</version>
+      <executions>
+        <execution>
+          <id>attach-sources</id>
+          <goals>
+            <goal>jar-no-fork</goal>
+          </goals>
+        </execution>
+      </executions>
+    </plugin>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-javadoc-plugin</artifactId>
+      <version>2.9.1</version>
+      <executions>
+        <execution>
+          <id>attach-javadocs</id>
+          <goals>
+            <goal>jar</goal>
+          </goals>
+        </execution>
+      </executions>
     </plugin>
   </plugins>
 </build>
