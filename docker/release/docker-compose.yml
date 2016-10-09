@@ -16,7 +16,7 @@ services:
       CLUSTER_GROUP_NAME: portfolio-service
       CLUSTER_GROUP_PASSWORD: password
   test:
-    image: dockerproductionaws/microtrader-test
+    image: dpaws/microtrader-test
     links:
       - app
     environment:

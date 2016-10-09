@@ -4,7 +4,7 @@ include .env
 
 # Project variables
 PROJECT_NAME ?= portfolio-service
-ORG_NAME ?= dockerproductionaws
+ORG_NAME ?= dpaws
 REPO_NAME ?= portfolio-service
 TEST_REPO_NAME ?= portfolio-service-dev
 
