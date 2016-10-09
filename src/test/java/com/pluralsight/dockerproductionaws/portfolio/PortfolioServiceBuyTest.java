@@ -1,8 +1,6 @@
 package com.pluralsight.dockerproductionaws.portfolio;
 
 import com.pluralsight.dockerproductionaws.portfolio.impl.PortfolioServiceImpl;
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.TestContext;
@@ -20,7 +18,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @RunWith(VertxUnitRunner.class)
 public class PortfolioServiceBuyTest {
-    private Config config = ConfigFactory.load();
     private Portfolio portfolio;
     private Vertx vertx;
     private ServiceDiscovery discovery;
@@ -48,53 +45,54 @@ public class PortfolioServiceBuyTest {
     @Test
     public void testBuy(TestContext context) {
         PortfolioService svc = new PortfolioServiceImpl(vertx, discovery, 10000);
-        svc.getPortfolio(result -> {
-            portfolio = result.result();
+        svc.getPortfolio(ar -> {
+            portfolio = ar.result();
+            svc.buy(3, getQuote(), result -> {
+                assertThat(result.succeeded()).isTrue();
+                assertThat(portfolio.getCash()).isEqualTo(13);
+                context.async().complete();
+            });
         });
-        svc.buy(3, getQuote(), result -> {
-            assertThat(result.succeeded()).isTrue();
-            assertThat(portfolio.getCash()).isEqualTo(13);
-            context.async().complete();
-        });
+
     }
 
     @Test
     public void testBuyNotEnoughCash(TestContext context) {
         PortfolioService svc = new PortfolioServiceImpl(vertx, discovery, 9000);
-        svc.getPortfolio(result -> {
-            portfolio = result.result();
-        });
-        svc.buy(3, getQuote(), result -> {
-            assertThat(result.succeeded()).isFalse();
-            assertThat(portfolio.getCash()).isEqualTo(9000);
+        svc.getPortfolio(ar -> {
+            portfolio = ar.result();
+            svc.buy(3, getQuote(), result -> {
+                assertThat(result.succeeded()).isFalse();
+                assertThat(portfolio.getCash()).isEqualTo(9000);
 
-            context.async().complete();
+                context.async().complete();
+            });
         });
     }
 
     @Test
     public void testBuyNotEnoughStocks(TestContext context) {
         PortfolioService svc = new PortfolioServiceImpl(vertx, discovery, 15000);
-        svc.getPortfolio(result -> {
-            portfolio = result.result();
-        });
-        svc.buy(4, getQuote(), result -> {
-            assertThat(result.succeeded()).isFalse();
-            assertThat(portfolio.getCash()).isEqualTo(15000);
-            context.async().complete();
+        svc.getPortfolio(ar -> {
+            portfolio = ar.result();
+            svc.buy(4, getQuote(), result -> {
+                assertThat(result.succeeded()).isFalse();
+                assertThat(portfolio.getCash()).isEqualTo(15000);
+                context.async().complete();
+            });
         });
     }
 
     @Test
     public void testBuyNegativeStocks(TestContext context) {
         PortfolioService svc = new PortfolioServiceImpl(vertx, discovery, 15000);
-        svc.getPortfolio(result -> {
-            portfolio = result.result();
-        });
-        svc.buy(-1, getQuote(), result -> {
-            assertThat(result.succeeded()).isFalse();
-            assertThat(portfolio.getCash()).isEqualTo(15000);
-            context.async().complete();
+        svc.getPortfolio(ar -> {
+            portfolio = ar.result();
+            svc.buy(-1, getQuote(), result -> {
+                assertThat(result.succeeded()).isFalse();
+                assertThat(portfolio.getCash()).isEqualTo(15000);
+                context.async().complete();
+            });
         });
     }
 }

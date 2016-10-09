@@ -6,6 +6,7 @@ import com.typesafe.config.ConfigFactory;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
 import io.vertx.servicediscovery.ServiceDiscovery;
@@ -41,6 +42,7 @@ public class PortfolioServiceSellTest {
 
     @Before
     public void testSetup(TestContext context) {
+        Async async = context.async();
         vertx = Vertx.vertx();
         discovery = ServiceDiscovery
                 .create(vertx, new ServiceDiscoveryOptions()
@@ -49,36 +51,39 @@ public class PortfolioServiceSellTest {
         svc.getPortfolio(ar -> {
             portfolio = ar.result();
             svc.buy(3, getQuote(), result -> {
-                context.async().complete();
+                async.complete();
             });
         });
     }
 
     @Test
     public void testSell(TestContext context) {
+        Async async = context.async();
         svc.sell(2, getQuote(), result -> {
             assertThat(result.succeeded()).isTrue();
             assertThat(portfolio.getCash()).isEqualTo(6669);
             assertThat(portfolio.getShares().get("MacroHard")).isEqualTo(1);
-            context.async().complete();
+            async.complete();
         });
     }
 
     @Test
     public void testSellNotEnoughStocks(TestContext context) {
+        Async async = context.async();
         svc.sell(4, getQuote(), result -> {
             assertThat(result.succeeded()).isFalse();
             assertThat(portfolio.getCash()).isEqualTo(13);
-            context.async().complete();
+            async.complete();
         });
     }
 
     @Test
     public void testSellNegativeStocks(TestContext context) {
+        Async async = context.async();
         svc.sell(-1, getQuote(), result -> {
             assertThat(result.succeeded()).isFalse();
             assertThat(portfolio.getCash()).isEqualTo(13);
-            context.async().complete();
+            async.complete();
         });
     }
 }
