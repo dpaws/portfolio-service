@@ -57,7 +57,7 @@ public class Portfolio {
     }
 
     /**
-     * @return the owned shared (name -> number)
+     * @return the owned shared
      */
     public Map<String, Integer> getShares() {
         return shares;
