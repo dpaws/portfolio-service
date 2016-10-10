@@ -23,11 +23,6 @@ var JPortfolioService = com.pluralsight.dockerproductionaws.portfolio.PortfolioS
 var Portfolio = com.pluralsight.dockerproductionaws.portfolio.Portfolio;
 
 /**
- A service managing a portfolio.
- <p>
- This service is an event bus service (a.k.a service proxies, or async RPC). The client and server are generated at
- compile time.
- <p>
  @class
 */
 var PortfolioService = function(j_val) {
@@ -36,80 +31,76 @@ var PortfolioService = function(j_val) {
   var that = this;
 
   /**
-   Gets the portfolio.
 
    @public
-   @param resultHandler {function} the result handler called when the portfolio has been retrieved. The async result indicates whether the call was successful or not. 
+   @param arg0 {function} 
    */
-  this.getPortfolio = function(resultHandler) {
+  this.getPortfolio = function(arg0) {
     var __args = arguments;
     if (__args.length === 1 && typeof __args[0] === 'function') {
       j_portfolioService["getPortfolio(io.vertx.core.Handler)"](function(ar) {
       if (ar.succeeded()) {
-        resultHandler(utils.convReturnDataObject(ar.result()), null);
+        arg0(utils.convReturnDataObject(ar.result()), null);
       } else {
-        resultHandler(null, ar.cause());
+        arg0(null, ar.cause());
       }
     });
     } else throw new TypeError('function invoked with invalid arguments');
   };
 
   /**
-   Buy `amount` shares of the given shares (quote).
 
    @public
-   @param amount {number} the amount 
-   @param quote {Object} the last quote 
-   @param resultHandler {function} the result handler with the updated portfolio. If the action cannot be executed, the async result is market as a failure (not enough money, not enough shares available...) 
+   @param arg0 {number} 
+   @param arg1 {Object} 
+   @param arg2 {function} 
    */
-  this.buy = function(amount, quote, resultHandler) {
+  this.buy = function(arg0, arg1, arg2) {
     var __args = arguments;
     if (__args.length === 3 && typeof __args[0] ==='number' && (typeof __args[1] === 'object' && __args[1] != null) && typeof __args[2] === 'function') {
-      j_portfolioService["buy(int,io.vertx.core.json.JsonObject,io.vertx.core.Handler)"](amount, utils.convParamJsonObject(quote), function(ar) {
+      j_portfolioService["buy(int,io.vertx.core.json.JsonObject,io.vertx.core.Handler)"](arg0, utils.convParamJsonObject(arg1), function(ar) {
       if (ar.succeeded()) {
-        resultHandler(utils.convReturnDataObject(ar.result()), null);
+        arg2(utils.convReturnDataObject(ar.result()), null);
       } else {
-        resultHandler(null, ar.cause());
+        arg2(null, ar.cause());
       }
     });
     } else throw new TypeError('function invoked with invalid arguments');
   };
 
   /**
-   Sell `amount` shares of the given shares (quote).
 
    @public
-   @param amount {number} the amount 
-   @param quote {Object} the last quote 
-   @param resultHandler {function} the result handler with the updated portfolio. If the action cannot be executed, the async result is market as a failure (not enough share...) 
+   @param arg0 {number} 
+   @param arg1 {Object} 
+   @param arg2 {function} 
    */
-  this.sell = function(amount, quote, resultHandler) {
+  this.sell = function(arg0, arg1, arg2) {
     var __args = arguments;
     if (__args.length === 3 && typeof __args[0] ==='number' && (typeof __args[1] === 'object' && __args[1] != null) && typeof __args[2] === 'function') {
-      j_portfolioService["sell(int,io.vertx.core.json.JsonObject,io.vertx.core.Handler)"](amount, utils.convParamJsonObject(quote), function(ar) {
+      j_portfolioService["sell(int,io.vertx.core.json.JsonObject,io.vertx.core.Handler)"](arg0, utils.convParamJsonObject(arg1), function(ar) {
       if (ar.succeeded()) {
-        resultHandler(utils.convReturnDataObject(ar.result()), null);
+        arg2(utils.convReturnDataObject(ar.result()), null);
       } else {
-        resultHandler(null, ar.cause());
+        arg2(null, ar.cause());
       }
     });
     } else throw new TypeError('function invoked with invalid arguments');
   };
 
   /**
-   Evaluates the current value of the portfolio.
 
    @public
-   @param resultHandler {function} the result handler with the valuation 
+   @param arg0 {function} 
    */
-  this.evaluate = function(resultHandler) {
+  this.evaluate = function(arg0) {
     var __args = arguments;
     if (__args.length === 1 && typeof __args[0] === 'function') {
       j_portfolioService["evaluate(io.vertx.core.Handler)"](function(ar) {
       if (ar.succeeded()) {
-        resultHandler(ar.result(), null);
+        arg0(ar.result(), null);
       } else {
-        resultHandler(null, ar.cause());
+        arg0(null, ar.cause());
       }
     });
     } else throw new TypeError('function invoked with invalid arguments');

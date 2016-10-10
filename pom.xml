@@ -7,7 +7,7 @@
  <properties>
   <stack.version>3.3.3</stack.version>
   <doc.skip>true</doc.skip>
-  <main.verticle>com.pluralsight.dockerproductionaws.portfolio.impl.PortfolioVerticle</main.verticle>
+  <main.verticle>com.pluralsight.dockerproductionaws.portfolio.PortfolioVerticle</main.verticle>
 </properties>
 
 <name>Microtrader Portfolio Service</name>
@@ -213,11 +213,6 @@
     <artifactId>vertx-service-proxy</artifactId>
   </dependency>
   <dependency>
-    <groupId>io.vertx</groupId>
-    <artifactId>vertx-codegen</artifactId>
-    <optional>true</optional>
-  </dependency>
-  <dependency>
     <groupId>com.github.docker-production-aws</groupId>
     <artifactId>microtrader-common</artifactId>
     <version>1.0.0</version>
@@ -266,32 +261,6 @@
         <source>1.8</source>
         <target>1.8</target>
       </configuration>
-      <executions>
-        <execution>
-          <id>default-compile</id>
-          <configuration>
-            <annotationProcessors>
-              <annotationProcessor>io.vertx.codegen.CodeGenProcessor</annotationProcessor>
-            </annotationProcessors>
-            <generatedSourcesDirectory>src/main/generated</generatedSourcesDirectory>
-            <compilerArgs>
-              <arg>-AoutputDirectory=${project.basedir}/src/main</arg>
-            </compilerArgs>
-          </configuration>
-        </execution>
-        <execution>
-          <id>default-testCompile</id>
-          <configuration>
-            <annotationProcessors>
-              <annotationProcessor>io.vertx.codegen.CodeGenProcessor</annotationProcessor>
-            </annotationProcessors>
-            <generatedTestSourcesDirectory>src/test/generated</generatedTestSourcesDirectory>
-            <compilerArgs>
-              <arg>-AoutputDirectory=${project.basedir}/src/test</arg>
-            </compilerArgs>
-          </configuration>
-        </execution>
-      </executions>
     </plugin>
     <plugin>
       <groupId>org.apache.maven.plugins</groupId>

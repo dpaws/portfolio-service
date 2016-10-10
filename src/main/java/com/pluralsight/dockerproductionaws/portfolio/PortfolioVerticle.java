@@ -1,7 +1,8 @@
-package com.pluralsight.dockerproductionaws.portfolio.impl;
+package com.pluralsight.dockerproductionaws.portfolio;
 
 import com.pluralsight.dockerproductionaws.common.MicroserviceVerticle;
 import com.pluralsight.dockerproductionaws.portfolio.PortfolioService;
+import com.pluralsight.dockerproductionaws.portfolio.impl.PortfolioServiceImpl;
 import com.pluralsight.dockerproductionaws.trader.CompulsiveTraderVerticle;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.serviceproxy.ProxyHelper;
