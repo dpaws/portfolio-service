@@ -3,6 +3,7 @@ package com.pluralsight.dockerproductionaws.portfolio;
 import com.pluralsight.dockerproductionaws.portfolio.impl.PortfolioServiceImpl;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
 import io.vertx.servicediscovery.ServiceDiscovery;
@@ -44,13 +45,14 @@ public class PortfolioServiceBuyTest {
 
     @Test
     public void testBuy(TestContext context) {
+        Async async = context.async();
         PortfolioService svc = new PortfolioServiceImpl(vertx, discovery, 10000);
         svc.getPortfolio(ar -> {
             portfolio = ar.result();
             svc.buy(3, getQuote(), result -> {
                 assertThat(result.succeeded()).isTrue();
                 assertThat(portfolio.getCash()).isEqualTo(13);
-                context.async().complete();
+                async.complete();
             });
         });
 
@@ -58,40 +60,42 @@ public class PortfolioServiceBuyTest {
 
     @Test
     public void testBuyNotEnoughCash(TestContext context) {
+        Async async = context.async();
         PortfolioService svc = new PortfolioServiceImpl(vertx, discovery, 9000);
         svc.getPortfolio(ar -> {
             portfolio = ar.result();
             svc.buy(3, getQuote(), result -> {
                 assertThat(result.succeeded()).isFalse();
                 assertThat(portfolio.getCash()).isEqualTo(9000);
-
-                context.async().complete();
+                async.complete();
             });
         });
     }
 
     @Test
     public void testBuyNotEnoughStocks(TestContext context) {
+        Async async = context.async();
         PortfolioService svc = new PortfolioServiceImpl(vertx, discovery, 15000);
         svc.getPortfolio(ar -> {
             portfolio = ar.result();
             svc.buy(4, getQuote(), result -> {
                 assertThat(result.succeeded()).isFalse();
                 assertThat(portfolio.getCash()).isEqualTo(15000);
-                context.async().complete();
+                async.complete();
             });
         });
     }
 
     @Test
     public void testBuyNegativeStocks(TestContext context) {
+        Async async = context.async();
         PortfolioService svc = new PortfolioServiceImpl(vertx, discovery, 15000);
         svc.getPortfolio(ar -> {
             portfolio = ar.result();
             svc.buy(-1, getQuote(), result -> {
                 assertThat(result.succeeded()).isFalse();
                 assertThat(portfolio.getCash()).isEqualTo(15000);
-                context.async().complete();
+                async.complete();
             });
         });
     }
